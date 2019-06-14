@@ -2,7 +2,7 @@ FROM debian:jessie
 MAINTAINER Ray Statham Docker@Rapidphp.com
 
 # Usage:
-# docker run -d --name=apache-php -p 8080:80 -p 8443:443 chriswayg/apache-php
+# docker run -d --name=apache-php -p 8080:80 -p 8443:443 raystatham/apache-php
 # webroot: /var/www/html/
 # Apache2 config: /etc/apache2/
 
@@ -28,6 +28,7 @@ RUN a2dismod mpm_event && \
 WORKDIR /var/www/html
 
 COPY apache2-foreground /usr/local/bin/
+RUN chmod +x /usr/local/bin/apache2-foreground
 
 EXPOSE 80
 EXPOSE 443
