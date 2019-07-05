@@ -8,6 +8,7 @@ MAINTAINER Ray Statham Docker@Rapidphp.com
 
 RUN apt-get update && \
       DEBIAN_FRONTEND=noninteractive apt-get -y install \
+      wget \
       apache2 \
       libapache2-mod-php5 \
       php5 && \
@@ -24,6 +25,13 @@ RUN a2dismod mpm_event && \
     a2ensite default-ssl && \
     ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
+
+# Install Certbot for Apache2
+RUN wget https://dl.eff.org/certbot-auto
+RUN mv certbot-auto /usr/local/bin/certbot-auto
+RUN chown root /usr/local/bin/certbot-auto
+RUN chmod 0755 /usr/local/bin/certbot-auto
+RUN echo "0 0,1 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew" | tee -a /etc/crontab > /dev/null
 
 WORKDIR /var/www/html
 

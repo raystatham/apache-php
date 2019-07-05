@@ -1,6 +1,6 @@
-# apache-php for Docker
+# Apache, CertBot, PHP with Proxy enabled for Docker
 
-This project was cloned from [chriswayg/apache-php](https://github.com/chriswayg/apache-php) to give me a baseline build before enabling the Proxy_Pass module. Please view the original project for full instructions.
+This project was cloned from [chriswayg/apache-php](https://github.com/chriswayg/apache-php) to give me a baseline build before enabling the Proxy_Pass module and installing Certbot. Please view the original project for full instructions.
 
 Docker image with Apache2 web server and PHP based on the official Debian Jessie image
 
@@ -8,5 +8,29 @@ Docker image with Apache2 web server and PHP based on the official Debian Jessie
 - HTTPS/SSL enabled
 - Proxy_Pass enabled
 - PHP 5.6
-- logging enabled
-- all original Debian Packages (not compiled from source)
+- Logging enabled
+- Certbot installed for creating valid SSL certificates
+- All original Debian Packages (not compiled from source)
+
+## Example create.sh Script
+```
+#!/bin/bash
+
+docker create --restart=unless-stopped \
+      --name ApachePHP \
+      -p 80:80 \
+      -p 443:443 \
+      -v "$PWD/sites-available":/etc/apache2/sites-available \
+      -v "$PWD/html":/var/www/html \
+      -v "$PWD/certificates":/etc/letsencrypt \
+      raystatham/apache-php:latest
+```
+## Generate Certificates
+Generate the certificates for all VHOSTs defined within your local ./sites-available folder. A cron job with the container will then renew them at midnight on the first day of each month. See Certbot documentation for further information on the link below.
+```
+docker exec -it ApachePHP /bin/bash
+/usr/local/bin/certbot-auto --apache
+```
+## External References
+
+- [https://certbot.eff.org/](https://certbot.eff.org/)
