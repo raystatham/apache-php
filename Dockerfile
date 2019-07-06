@@ -11,7 +11,8 @@ RUN apt-get update && \
       wget \
       apache2 \
       libapache2-mod-php5 \
-      php5 && \
+      php5 \
+      php5-mysql && \
       apt-get clean && rm -r /var/lib/apt/lists/*
 
 # Apache + PHP requires preforking Apache for best results & enable Apache SSL

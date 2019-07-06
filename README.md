@@ -26,10 +26,10 @@ docker create --restart=unless-stopped \
       raystatham/apache-php:latest
 ```
 ## Generate Certificates
-Generate the certificates for all VHOSTs defined within your local ./sites-available folder. A cron job with the container will then renew them at midnight on the first day of each month. See Certbot documentation for further information on the link below.
+Generate the certificates for all VHOSTs defined within the local mapped foler `sites-available`. A cron job within the container will then renew each of your certificates if required at midnight on the first day of each month. See Certbot documentation for further information on the link below.
 ```
-docker exec -it ApachePHP /bin/bash
-/usr/local/bin/certbot-auto --apache
+$ docker exec -it ApachePHP /bin/bash
+$ /usr/local/bin/certbot-auto --apache
 ```
 ## External References
 
