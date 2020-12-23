@@ -34,3 +34,7 @@ $ /usr/local/bin/certbot-auto --apache
 ## External References
 
 - [https://certbot.eff.org/](https://certbot.eff.org/)
+
+## Updated
+
+* 22/12/2020
