@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:bullseye
 MAINTAINER Ray Statham Docker@Rapidphp.com
 
 # Usage:
@@ -7,32 +7,34 @@ MAINTAINER Ray Statham Docker@Rapidphp.com
 # Apache2 config: /etc/apache2/
 
 RUN apt-get update && \
-      DEBIAN_FRONTEND=noninteractive apt-get -y install \
-      wget \
-      apache2 \
-      libapache2-mod-php5 \
-      php5 \
-      php5-mysql && \
-      apt-get clean && rm -r /var/lib/apt/lists/*
+        DEBIAN_FRONTEND=noninteractive apt-get -y install \
+        wget \
+        apache2 \
+        libapache2-mod-php \
+        php \
+        php-common \
+        php-mysql && \
+        apt-get clean && rm -r /var/lib/apt/lists/*
 
 # Apache + PHP requires preforking Apache for best results & enable Apache SSL
 # forward request and error logs to docker log collector
+
 RUN a2dismod mpm_event && \
     a2enmod mpm_prefork \
-            ssl \
-            rewrite \
-            proxy \
-            proxy_http && \
+        ssl \
+        rewrite \
+        proxy \
+        proxy_http && \
     a2ensite default-ssl && \
     ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
 
 # Install Certbot for Apache2
-RUN wget https://dl.eff.org/certbot-auto
-RUN mv certbot-auto /usr/local/bin/certbot-auto
-RUN chown root /usr/local/bin/certbot-auto
-RUN chmod 0755 /usr/local/bin/certbot-auto
-RUN echo "0 0,1 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew" | tee -a /etc/crontab > /dev/null
+#RUN wget https://dl.eff.org/certbot-auto
+#RUN mv certbot-auto /usr/local/bin/certbot-auto
+#RUN chown root /usr/local/bin/certbot-auto
+#RUN chmod 0755 /usr/local/bin/certbot-auto
+#RUN echo "0 0,1 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew" | tee -a /etc/crontab > /dev/null
 
 WORKDIR /var/www/html
 

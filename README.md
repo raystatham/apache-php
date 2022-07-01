@@ -2,15 +2,22 @@
 
 This project was cloned from [chriswayg/apache-php](https://github.com/chriswayg/apache-php) to give me a baseline build before enabling the Proxy_Pass module and installing Certbot. Please view the original project for full instructions.
 
-Docker image with Apache2 web server and PHP based on the official Debian Jessie image
+Docker image with Apache2 web server and PHP based on the official Debian Bullseye image:
 
-- Apache 2.4 web server
+- Apache 2.4.53 web server
 - HTTPS/SSL enabled
 - Proxy_Pass enabled
-- PHP 5.6
+- PHP 7.4
 - Logging enabled
 - Certbot installed for creating valid SSL certificates
 - All original Debian Packages (not compiled from source)
+
+## Docker Build
+
+Create a new local Docker container:
+```
+docker build . raystatham/apache-php
+```
 
 ## Example create.sh Script
 ```
