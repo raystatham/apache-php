@@ -16,7 +16,7 @@ Docker image with Apache2 web server and PHP based on the official Debian Bullse
 
 Create a new local Docker container:
 ```
-docker build . raystatham/apache-php
+docker build . -t raystatham/apache-php
 ```
 
 ## Example create.sh Script
